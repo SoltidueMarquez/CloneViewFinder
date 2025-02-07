@@ -1,5 +1,7 @@
 # 效果展示视频
 
+https://www.bilibili.com/video/BV1VVNteiEgg/?vd_source=cee09b05f3a3e6487b6158deaaf10d4d
+
 # 笔记
   1.切割物体（重点是获取切割平面与模型三角形截点，并根据这些截点构造新的三角形面，以及填充切割平面）
 
