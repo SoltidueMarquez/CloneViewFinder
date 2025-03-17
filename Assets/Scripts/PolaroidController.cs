@@ -71,7 +71,7 @@ public class PolaroidController : MonoBehaviour
                         animator.SetTrigger("Film");
                         isFilmSpawned = true;
                         checkTimer = 0;
-                        //customFrustumLocalSpace.Cut(true);//ÅÄÕÕÆ¬
+                        //customFrustumLocalSpace.Cut(true);//ï¿½ï¿½ï¿½ï¿½Æ¬
                         polaroid.World2Photo();
                     }            
                     else if (Input.GetKeyDown(KeyCode.Mouse1) && animator.GetCurrentAnimatorStateInfo(0).IsName("Look"))
@@ -92,7 +92,7 @@ public class PolaroidController : MonoBehaviour
                     }
                     else if (Input.GetKeyDown(KeyCode.Mouse0) && filmAnimator != null && filmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Look"))
                     {
-                        //customFrustumLocalSpace.Cut(false);//·ÅÕÕÆ¬£¿£¿
+                        //customFrustumLocalSpace.Cut(false);//ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½
                         polaroid.Photo2World();
                         StartCoroutine(FilmOut());
                     }            

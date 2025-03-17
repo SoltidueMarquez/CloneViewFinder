@@ -10,7 +10,6 @@ public class Slicer : MonoBehaviour
 {
     static Mesh positivePartMesh = new Mesh();
     static Mesh negativePartMesh = new Mesh();
-
     static List<Vector3> positivePartVertices;
     static Dictionary<string, int> positivePartVerticesID2Inndexs;
     static List<Vector3> positivePartNormals;
@@ -30,11 +29,11 @@ public class Slicer : MonoBehaviour
     /// </summary>
     /// <param name="plane"></param>
     /// <param name="gameObject"></param>
-    /// <returns>·µ»ØÇÐ³ÉÁ½°ëµÄÎïÌå£¬Positive¡¢Negtivate two parts,positive part is the part same with plane normal</returns>
+    /// <returns>ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å£¬Positiveï¿½ï¿½Negtivate two parts,positive part is the part same with plane normal</returns>
     public static List<GameObject> Slice(Vector3 planeNormal, Vector3 planePoint, GameObject gameObject)
     {
         positivePartVertices = new List<Vector3>();
-        positivePartVerticesID2Inndexs = new Dictionary<string, int>();//sharedVertex,ÒªÈ¥ÖØ
+        positivePartVerticesID2Inndexs = new Dictionary<string, int>();//sharedVertex,ÒªÈ¥ï¿½ï¿½
         positivePartNormals = new List<Vector3>();
         positivePartUvs = new List<Vector2>();
         positivePartSubMeshTriangles = new Dictionary<int, List<int>>();
@@ -47,7 +46,7 @@ public class Slicer : MonoBehaviour
 
         alongPlaneVerticesIDs = new List<string>();
 
-        //--->¸´ÖÆÒ»¸öÐÂµÄMesh
+        //--->ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½Mesh
         Mesh originalMesh = gameObject.GetComponent<MeshFilter>().mesh;
         if (originalMesh == null) Debug.LogError("there is no mesh");
         Mesh readyToCutGameObjectMesh = new Mesh();
@@ -68,18 +67,18 @@ public class Slicer : MonoBehaviour
             readyToCutGameObjectMesh.SetTriangles(originalMesh.GetTriangles(i), i);
         }
 
-        //-->±ä»»ÊÀ½ç×ø±êÏµÏÂ¶¨ÒåµÄÆ½ÃæÎª´ýÇÐ¸îÎïÌåµÄ¾Ö²¿×ø±êÏµ
+        //-->ï¿½ä»»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Â¶ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾Ö²ï¿½ï¿½ï¿½ï¿½ï¿½Ïµ
         //Transform the normal so that it is aligned with the object we are slicing's transform.
-        Vector3 transformedNormal = ((Vector3)(gameObject.transform.localToWorldMatrix.transpose * planeNormal)).normalized;//??¹«Ê½??
+        Vector3 transformedNormal = ((Vector3)(gameObject.transform.localToWorldMatrix.transpose * planeNormal)).normalized;//??ï¿½ï¿½Ê½??
         //Get the enter position relative to the object we're cutting's local transform
-        Vector3 transformedStartingPoint = gameObject.transform.InverseTransformPoint(planePoint);//??¹«Ê½??
+        Vector3 transformedStartingPoint = gameObject.transform.InverseTransformPoint(planePoint);//??ï¿½ï¿½Ê½??
         Plane plane = new Plane();
         plane.SetNormalAndPosition(
                 transformedNormal,
                 transformedStartingPoint);
 
 
-        //--->¿¼ÂÇsubmesh
+        //--->ï¿½ï¿½ï¿½ï¿½submesh
         for (int subMeshIndex = 0; subMeshIndex < readyToCutGameObjectMesh.subMeshCount; subMeshIndex++)
         {
             int[] subMeshTriangleIndices = readyToCutGameObjectMesh.GetTriangles(subMeshIndex);
@@ -106,7 +105,7 @@ public class Slicer : MonoBehaviour
                     plane.GetSide(vertices[1]),
                     plane.GetSide(vertices[2])
                 };
-                //All three vertices are on the same side,ËùÒÔÈÎÈ¡Ò»¸ö¾ÍÖªµÀÎ»ÓÚÄÄÒ»±ß
+                //All three vertices are on the same side,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½Öªï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
                 if (vertexSides[0] == vertexSides[1] && vertexSides[0] == vertexSides[2])
                 {
                     //List<int> onPlaneVertexIndexs = new List<int>();
@@ -119,11 +118,11 @@ public class Slicer : MonoBehaviour
                     //}
                     //if(onPlaneVertexIndexs.Count>1) alongPlaneVerticesIDs.AddRange(new List<string> { vertexIDs[onPlaneVertexIndexs[0]], vertexIDs[onPlaneVertexIndexs[1]] });
 
-                    AddSubMeshTriangleInfo(vertexSides[0], subMeshIndex, vertexIDs, vertices, normals, uv);//Õâ¸ö²¿·Ö¿ÉÄÜ»áÉ¾³ývertices,ËùÒÔÏÈÅÐ¶Ï¾àÀë
+                    AddSubMeshTriangleInfo(vertexSides[0], subMeshIndex, vertexIDs, vertices, normals, uv);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¿ï¿½ï¿½Ü»ï¿½É¾ï¿½ï¿½vertices,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï¾ï¿½ï¿½ï¿½
                 }
                 else
                 {
-                    //--->»ñÈ¡½Øµã£¨±»Æ½ÃæËùÇÐµÄµã£©£¨£¡£¡ÐèÒªÖØÐÂ¼ÆËãUVÓëNormal£©
+                    //--->ï¿½ï¿½È¡ï¿½Øµã£¨ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄµã£©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½UVï¿½ï¿½Normalï¿½ï¿½
                     Vector3 intersectionVertex1, intersectionNormal1;
                     string intersectionVertex1ID;
                     Vector2 intersectionUV1;
@@ -134,7 +133,7 @@ public class Slicer : MonoBehaviour
 
                     int singleSideVertexIndex = 0;
                     int doubleSideVertexIndex = 0;
-                    //×ÜÊÇÓÉ×Ô¼ºµ¥¶ÀÒ»ÃæµÄÄÇ¸ö¶¥µãÏòÆäÓàÁ½¸ö×öÉäÏßÈ¡½»µã
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
                     for (int i = 0; i < 3; i++)
                     {
                         if (vertexSides[i] != vertexSides[(i + 3 - 1) % 3] && vertexSides[i] != vertexSides[(i + 1) % 3])
@@ -147,7 +146,7 @@ public class Slicer : MonoBehaviour
 
                     doubleSideVertexIndex = (singleSideVertexIndex + 1) % 3;
                     plane.Raycast(new Ray(vertices[singleSideVertexIndex], (vertices[doubleSideVertexIndex] - vertices[singleSideVertexIndex]).normalized), out distance);
-                    normalizedDistance = distance / (vertices[doubleSideVertexIndex] - vertices[singleSideVertexIndex]).magnitude;//¹éÒ»»¯ÓÃ×÷²åÖµµÄÏµÊý
+                    normalizedDistance = distance / (vertices[doubleSideVertexIndex] - vertices[singleSideVertexIndex]).magnitude;//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ïµï¿½ï¿½
                     intersectionVertex1 = Vector3.Lerp(vertices[singleSideVertexIndex], vertices[doubleSideVertexIndex], normalizedDistance);
                     intersectionNormal1 = Vector3.Lerp(normals[singleSideVertexIndex], normals[doubleSideVertexIndex], normalizedDistance);
                     intersectionUV1 = Vector2.Lerp(uv[singleSideVertexIndex], uv[doubleSideVertexIndex], normalizedDistance);
@@ -157,7 +156,7 @@ public class Slicer : MonoBehaviour
 
                     doubleSideVertexIndex = (singleSideVertexIndex + 2) % 3;
                     plane.Raycast(new Ray(vertices[singleSideVertexIndex], (vertices[doubleSideVertexIndex] - vertices[singleSideVertexIndex]).normalized), out distance);
-                    normalizedDistance = distance / (vertices[doubleSideVertexIndex] - vertices[singleSideVertexIndex]).magnitude;//¹éÒ»»¯ÓÃ×÷²åÖµµÄÏµÊý
+                    normalizedDistance = distance / (vertices[doubleSideVertexIndex] - vertices[singleSideVertexIndex]).magnitude;//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ïµï¿½ï¿½
                     intersectionVertex2 = Vector3.Lerp(vertices[singleSideVertexIndex], vertices[doubleSideVertexIndex], normalizedDistance);
                     intersectionNormal2 = Vector3.Lerp(normals[singleSideVertexIndex], normals[doubleSideVertexIndex], normalizedDistance);
                     intersectionUV2 = Vector2.Lerp(uv[singleSideVertexIndex], uv[doubleSideVertexIndex], normalizedDistance);
@@ -165,8 +164,8 @@ public class Slicer : MonoBehaviour
                         vertexIndexs[doubleSideVertexIndex].ToString() + "-" + vertexIndexs[singleSideVertexIndex] :
                         vertexIndexs[singleSideVertexIndex].ToString() + "-" + vertexIndexs[doubleSideVertexIndex];
 
-                    //--->ÀûÓÃÐÂÔöµÄ½ØµãÓëÔ­Ê¼Èý½ÇÐÎ¹¹¹¹ÔìÐÂÈý½ÇÐÎ
-                    //¾ùÊÇË³Ê±ÕëË³Ðò
+                    //--->ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½Øµï¿½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Î¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    //ï¿½ï¿½ï¿½ï¿½Ë³Ê±ï¿½ï¿½Ë³ï¿½ï¿½
                     AddSubMeshTriangleInfo(vertexSides[singleSideVertexIndex], subMeshIndex,
                         new List<string> { vertexIDs[singleSideVertexIndex], intersectionVertex1ID, intersectionVertex2ID },
                         new List<Vector3> { vertices[singleSideVertexIndex], intersectionVertex1, intersectionVertex2 },
@@ -185,12 +184,12 @@ public class Slicer : MonoBehaviour
                         new List<Vector3> { normals[(singleSideVertexIndex + 1) % 3], normals[(singleSideVertexIndex + 2) % 3], intersectionNormal2 },
                         new List<Vector2> { uv[(singleSideVertexIndex + 1) % 3], uv[(singleSideVertexIndex + 2) % 3], intersectionUV2 });
 
-                    //ÓÃÓÚºóÐøÌî³äÇÐ¸îÃæÑ°ÕÒË÷Òý
+                    //ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     alongPlaneVerticesIDs.AddRange(new List<string> { intersectionVertex1ID, intersectionVertex2ID });
                 }
             }
         }
-        //--->¸ù¾ÝËùÓÐ½Øµã¶Ô¹¹ÔìÐÂµÄÈý½ÇÐÎÌî³ä½ØÃæ
+        //--->ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½Øµï¿½Ô¹ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Vector3 centerVertex = Vector3.zero;
         foreach (string id in alongPlaneVerticesIDs)
         {
@@ -203,13 +202,13 @@ public class Slicer : MonoBehaviour
         int positivePartSubMeshIndex = positivePartSubMeshTriangles.Count;
         int negativePartSubMeshIndex = negativePartSubMeshTriangles.Count;
 
-        string centerVertexPositivePartID = "-2";//positivePartVertices.Count.ToString();ÕâÐ©¿ÉÄÜ»áºÍÒÑÓÐµÄÖØ¸´£¡£¡£¡
+        string centerVertexPositivePartID = "-2";//positivePartVertices.Count.ToString();ï¿½ï¿½Ð©ï¿½ï¿½ï¿½Ü»ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         string centerVertexNegativePartID = "-1";//negativePartVertices.Count.ToString();
         for (int i = 0; i < alongPlaneVerticesIDs.Count; i = i + 2)
         {
             string alongPlaneVertexID1 = alongPlaneVerticesIDs[i];
             string alongPlaneVertexID2 = alongPlaneVerticesIDs[i + 1];
-            //ÒÔpostive²¿·Ö¿´ÊÇ·ñÐèÒª·´×ª
+            //ï¿½ï¿½postiveï¿½ï¿½ï¿½Ö¿ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½×ª
             if (Vector3.Dot(Vector3.Cross(positivePartVertices[positivePartVerticesID2Inndexs[alongPlaneVertexID1]] - centerVertex, positivePartVertices[positivePartVerticesID2Inndexs[alongPlaneVertexID2]] - centerVertex), -plane.normal) < 0)
             {
                 //Debug.Log("reverse");
@@ -238,13 +237,13 @@ public class Slicer : MonoBehaviour
         SetMesh("PositivePart");
         SetMesh("NegativePart");
 
-        Material mat = gameObject.GetComponent<MeshRenderer>().material;//ÕâÀïÖ»È¡ÁËµÚÒ»¸ö
-        var originalCols = gameObject.GetComponents<Collider>();//É¾³ýÖ®Ç°µÄcolliders
+        Material mat = gameObject.GetComponent<MeshRenderer>().material;//ï¿½ï¿½ï¿½ï¿½Ö»È¡ï¿½Ëµï¿½Ò»ï¿½ï¿½
+        var originalCols = gameObject.GetComponents<Collider>();//É¾ï¿½ï¿½Ö®Ç°ï¿½ï¿½colliders
         foreach (var col in originalCols)
         {
-            DestroyImmediate(col);//²»ÄÜÓÃdestory£¨£©£¬ÕâÊÇÏÂÒ»Ö¡²Å»áÖ´ÐÐ
+            DestroyImmediate(col);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½destoryï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ö¡ï¿½Å»ï¿½Ö´ï¿½ï¿½
         }
-        //ÉèÖÃmesh,material,collider
+        //ï¿½ï¿½ï¿½ï¿½mesh,material,collider
         GameObject positivePartGameObject = Instantiate(gameObject);
         positivePartGameObject.name = gameObject.name + "P";
         //positivePartGameObject.SetActive(false);
@@ -255,7 +254,7 @@ public class Slicer : MonoBehaviour
         {
             mats[i] = mat;
         }
-        positivePartGameObject.GetOrAddComponent<MeshRenderer>().materials = mats;//Ò»¶¨ÒªÉèÖÃMaterial
+        positivePartGameObject.GetOrAddComponent<MeshRenderer>().materials = mats;//Ò»ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Material
 
         var collider = positivePartGameObject.AddComponent<MeshCollider>();
         collider.sharedMesh = positivePartMesh;
@@ -284,11 +283,11 @@ public class Slicer : MonoBehaviour
 
         if (whichPart == "PositivePart")
         {
-            positivePartMesh = new Mesh();//ÖØÖÃ,·ñÔòÖ®Ç°µÄÊý¾Ý»áÓ°ÏìÐÂÉèÖÃµÄ¶¥µãÊý¾ÝµÈµÈ
+            positivePartMesh = new Mesh();//ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ý»ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÝµÈµï¿½
             //if (positivePartVertices.Count == 0) return;
             positivePartMesh.SetVertices(positivePartVertices);
             positivePartMesh.SetNormals(positivePartNormals);
-            positivePartMesh.SetUVs(0, positivePartUvs); //UV0(Í¨µÀ0): Ö÷ÒªÓÃÓÚ»ù´¡ÎÆÀíÓ³Éä£¨diffuse texture, albedoµÈ£©,UV1(Í¨µÀ1): Í¨³£ÓÃÓÚ¹âÕÕÌùÍ¼£¨lightmap£©,UV2(Í¨µÀ2): ¿ÉÓÃÓÚ¶îÍâµÄÐ§¹ûÈçÏ¸½ÚÌùÍ¼
+            positivePartMesh.SetUVs(0, positivePartUvs); //UV0(Í¨ï¿½ï¿½0): ï¿½ï¿½Òªï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ä£¨diffuse texture, albedoï¿½È£ï¿½,UV1(Í¨ï¿½ï¿½1): Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½lightmapï¿½ï¿½,UV2(Í¨ï¿½ï¿½2): ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½Í¼
             positivePartMesh.SetUVs(1, positivePartUvs);
 
             positivePartMesh.subMeshCount = positivePartSubMeshTriangles.Count;
@@ -304,7 +303,7 @@ public class Slicer : MonoBehaviour
             //if (negativePartVertices.Count == 0) return;
             negativePartMesh.SetVertices(negativePartVertices);
             negativePartMesh.SetNormals(negativePartNormals);
-            negativePartMesh.SetUVs(0, negativePartUvs); //UV0(Í¨µÀ0): Ö÷ÒªÓÃÓÚ»ù´¡ÎÆÀíÓ³Éä£¨diffuse texture, albedoµÈ£©,UV1(Í¨µÀ1): Í¨³£ÓÃÓÚ¹âÕÕÌùÍ¼£¨lightmap£©,UV2(Í¨µÀ2): ¿ÉÓÃÓÚ¶îÍâµÄÐ§¹ûÈçÏ¸½ÚÌùÍ¼
+            negativePartMesh.SetUVs(0, negativePartUvs); //UV0(Í¨ï¿½ï¿½0): ï¿½ï¿½Òªï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ä£¨diffuse texture, albedoï¿½È£ï¿½,UV1(Í¨ï¿½ï¿½1): Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½lightmapï¿½ï¿½,UV2(Í¨ï¿½ï¿½2): ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½Í¼
             negativePartMesh.SetUVs(1, negativePartUvs);
 
             negativePartMesh.subMeshCount = negativePartSubMeshTriangles.Count;
@@ -325,7 +324,7 @@ public class Slicer : MonoBehaviour
             {
                 if (positivePartVerticesID2Inndexs.ContainsKey(ids[i]))
                 {
-                    verticesIndexs[i] = positivePartVerticesID2Inndexs[ids[i]];//ÀûÓÃÒÑÓÐµÄ
+                    verticesIndexs[i] = positivePartVerticesID2Inndexs[ids[i]];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½
                     vertices.RemoveAt(j);
                     normals.RemoveAt(j);
                     uv.RemoveAt(j);
@@ -333,7 +332,7 @@ public class Slicer : MonoBehaviour
                 }
                 else
                 {
-                    verticesIndexs[i] = newVertexIndex++;//Ìí¼ÓÐÂµÄ
+                    verticesIndexs[i] = newVertexIndex++;//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½
                     positivePartVerticesID2Inndexs[ids[i]] = verticesIndexs[i];
                 }
             }
@@ -354,7 +353,7 @@ public class Slicer : MonoBehaviour
             {
                 if (negativePartVerticesID2Inndexs.ContainsKey(ids[i]))
                 {
-                    verticesIndexs[i] = negativePartVerticesID2Inndexs[ids[i]];//ÀûÓÃÒÑÓÐµÄ
+                    verticesIndexs[i] = negativePartVerticesID2Inndexs[ids[i]];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½
                     vertices.RemoveAt(j);
                     normals.RemoveAt(j);
                     uv.RemoveAt(j);
@@ -362,7 +361,7 @@ public class Slicer : MonoBehaviour
                 }
                 else
                 {
-                    verticesIndexs[i] = newVertexIndex++;//Ìí¼ÓÐÂµÄ
+                    verticesIndexs[i] = newVertexIndex++;//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½
                     negativePartVerticesID2Inndexs[ids[i]] = verticesIndexs[i];
                 }
             }
