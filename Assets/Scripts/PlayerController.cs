@@ -6,7 +6,7 @@ using UnityEngine.Rendering.HighDefinition;
 /// <summary>
 /// 玩家控制器：处理玩家移动、相机控制等功能
 /// </summary>
-public class PlayerController : Monobehavior
+public class PlayerController : MonoBehaviour
 {
     // 基础移动参数
     public float speed = 6.0f;                  // 移动速度
